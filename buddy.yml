@@ -18,7 +18,7 @@
     type: MSSQL_CLI
     shell: BASH
     execute_commands:
-    - sqlcmd -S "$MSSQL_HOST,$MSSQL_PORT" -U "$MSSQL_USER" -P "$MSSQL_PASSWORD" -d "$MSSQL_DATABASE" -C -Q "SELECT name FROM sys.tables"
+    - sqlcmd -C -Q "SELECT name FROM sys.tables"
     mssql_version: "2022"
     targets:
     - target: mssql
@@ -35,7 +35,7 @@
     type: MSSQL_CLI
     shell: BASH
     execute_commands:
-    - sqlcmd -S "$MSSQL_HOST,$MSSQL_PORT" -U "$MSSQL_USER" -P "$MSSQL_PASSWORD" -d "$MSSQL_DATABASE" -C -Q "SELECT name FROM sys.tables"
+    - sqlcmd -C -Q "SELECT name FROM sys.tables"
     mssql_version: "2022"
     targets:
     - target: mssql-direct
