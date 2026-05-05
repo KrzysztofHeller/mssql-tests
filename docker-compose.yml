@@ -22,6 +22,32 @@ services:
     entrypoint: /bin/bash -c "sleep 20 && /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P 'RootPass123!' -C -i /init/01-init.sql"
     restart: "no"
 
+  mssql-tls:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-tls-test
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "RootPass123!"
+      MSSQL_PID: Developer
+    ports:
+      - "1435:1433"
+    volumes:
+      - mssql-tls-data:/var/opt/mssql
+      - ./certs/mssql.pem:/etc/ssl/certs/mssql.pem:ro
+      - ./certs/mssql.key:/etc/ssl/private/mssql.key:ro
+      - ./mssql-tls.conf:/var/opt/mssql/mssql.conf:ro
+
+  mssql-tls-init:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: mssql-tls-init
+    depends_on:
+      - mssql-tls
+    volumes:
+      - ./init:/init
+    entrypoint: /bin/bash -c "sleep 25 && /opt/mssql-tools/bin/sqlcmd -S mssql-tls -U sa -P 'RootPass123!' -C -i /init/01-init.sql"
+    restart: "no"
+
   ssh:
     build: ./ssh
     container_name: ssh-tunnel-mssql
@@ -31,3 +57,4 @@ services:
 
 volumes:
   mssql-data:
+  mssql-tls-data:
