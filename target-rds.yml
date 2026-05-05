@@ -1,0 +1,26 @@
+- pipeline: test_4
+  name: test 4 (rds)
+  refs:
+  - :default
+  fail_on_prepare_env_warning: true
+  events:
+  - type: WEBHOOK
+  actions:
+  - action: Run RDS MSSQL queries
+    type: MSSQL_CLI
+    shell: BASH
+    execute_commands:
+    - sqlcmd -C -Q 'SELECT @@VERSION'
+    - sqlcmd -C -Q 'SELECT name FROM sys.databases'
+    targets:
+    - target: rds-mssql-test
+      type: RDS_MSSQL
+      name: AWS RDS MSSQL test
+      integration: vDpAK4qOwo6kpoolj2XExgRY7Z
+      region: eu-central-1
+      db_instance_identifier: buddy-mssql-test
+      host: buddy-mssql-test.cp6ht7dpjcq6.eu-central-1.rds.amazonaws.com
+      database: master
+      auth:
+        username: admin
+        password: '!encrypted RUY88eRK/K4WSrQOojfH+A==.EPawaysNGKHh7MLpNk12Lg=='
