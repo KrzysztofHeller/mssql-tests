@@ -47,3 +47,57 @@
       auth:
         username: testuser
         password: TestPass123!
+  - action: Run MSSQL on TLS instance (REQUIRE - encrypt + trust)
+    type: MSSQL_CLI
+    shell: BASH
+    execute_commands:
+    - sqlcmd -N true -C -Q "SELECT name FROM sys.tables"
+    mssql_version: "2022"
+    targets:
+    - target: mssql-tls-require
+      type: MSSQL
+      name: TLS MSSQL (REQUIRE)
+      host: 192.168.10.226
+      port: 1435
+      database: devdb
+      auth:
+        username: testuser
+        password: TestPass123!
+  - action: Run MSSQL on TLS instance (VERIFY_FULL - encrypt + verify CA)
+    type: MSSQL_CLI
+    shell: BASH
+    execute_commands:
+    - sqlcmd -Q "SELECT name FROM sys.tables"
+    mssql_version: "2022"
+    targets:
+    - target: mssql-tls-verify-full
+      type: MSSQL
+      name: TLS MSSQL (VERIFY_FULL)
+      host: 192.168.10.226
+      port: 1435
+      database: devdb
+      ssl_mode: VERIFY_FULL
+      ca_certificate: |
+        -----BEGIN CERTIFICATE-----
+        MIIDMDCCAhigAwIBAgIUXcDTarrIA5c2SBuNNJJ/J24Un84wDQYJKoZIhvcNAQEL
+        BQAwFDESMBAGA1UEAwwJbXNzcWwtdGxzMB4XDTI2MDUwNTA1NTQyMloXDTI3MDUw
+        NTA1NTQyMlowFDESMBAGA1UEAwwJbXNzcWwtdGxzMIIBIjANBgkqhkiG9w0BAQEF
+        AAOCAQ8AMIIBCgKCAQEAub74gygpnehCk8hQuZ4FuTun8LWRWUZBRGyxTcEkS+WB
+        FMyR5nVTrWa8ivlyDf6uTfct+2/8TbpxphiyMGglVsYGyavLnwPE7ykA4GczQwJj
+        Ksh4/Mqtu0yBCowoDz5aQgU76f7hecJlV/akNor3m1FZWxoW+b9q6TMt2pNJl0hj
+        6I8Y3JHti8OoaT7vb9FRP71joft9lZRuQZE1/96w2eqGXVXc6LQ/3CEUcdPHyuEf
+        1A6ydE2wOnCF7taiM9XwSHJ4uKWbk3Do/KEZukOI8XFzfHBr3UNiOWLF7qiEuZj6
+        z5w9jMr2vNTBXQNsGU5ZDBUeY76AYA2ZraehrvNbtQIDAQABo3oweDAdBgNVHQ4E
+        FgQUlpnoQpXN5vJVWd/5yQ/JcJm3LvEwHwYDVR0jBBgwFoAUlpnoQpXN5vJVWd/5
+        yQ/JcJm3LvEwDwYDVR0TAQH/BAUwAwEB/zAlBgNVHREEHjAcggltc3NxbC10bHOC
+        CWxvY2FsaG9zdIcEfwAAATANBgkqhkiG9w0BAQsFAAOCAQEAk7yNvk/M7dhzHq6w
+        ubp6t78t/+crO0FT09Auz5Hur3xBZGTXweMOw7vFKhzYHgozuPHwN3quvHLHT6vy
+        W8Z0TC+3srIxBomvQgHQERlwp1r03g9KAMGm0yW+zx4DOCLGNqELeImj8KbezmLv
+        sBaPC3NzI3VKGqLBXFowoni95hWjoBRfS6BXh/mISJ0UGrnQHdYgYZuP+8SXrYag
+        Tj1CENbNxPvJ8PzrSqpRJTc41QNT285ioefELQUGBF2zMUwzfCduPSdO5cfWqxcu
+        NxluT6z/OKoNE5KFQU1wMx0V+8yeqXL36Rg9jnfc5OCRL3G6kl24URFBcqELy4RY
+        yyWP9g==
+        -----END CERTIFICATE-----
+      auth:
+        username: testuser
+        password: TestPass123!
